@@ -54,14 +54,20 @@ public void displayWinningMessage()
 }
 public boolean isValid(int r, int c)
 {
-    //your code here
-    return false;
+  return r<NUM_ROWS&&c<NUM_COLS&&r>=0&&c>=0?true:false;
 }
 public int countMines(int row, int col)
 {
-    int numMines = 0;
-    //your code here
-    return numMines;
+    int count = 0;
+    if(isValid(row-1,col-1)&&mines.contains(buttons[row-1][col-1])) count++;
+    if(isValid(row-1,col)&&mines.contains(buttons[row-1][col])) count++;
+    if(isValid(row-1,col+1)&&mines.contains(buttons[row-1][col+1])) count++;
+    if(isValid(row,col-1)&&mines.contains(buttons[row][col-1]))count++;
+    if(isValid(row,col+1)&&mines.contains(buttons[row][col+1])) count++;
+    if(isValid(row+1,col-1)&&mines.contains(buttons[row+1][col-1])) count++;
+    if(isValid(row+1,col)&&mines.contains(buttons[row+1][col])) count++;
+    if(isValid(row+1,col+1)&&mines.contains(buttons[row+1][col+1])) count++;
+    return count;
 }
 public class MSButton
 {
@@ -87,7 +93,8 @@ public class MSButton
     public void mousePressed () 
     {
         clicked = true;
-        //your code here
+        if(flagged) flagged = clicked = false;
+        else flagged = true;
     }
     public void draw () 
     {    

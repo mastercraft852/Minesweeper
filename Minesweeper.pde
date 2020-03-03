@@ -98,8 +98,8 @@ public class MSButton
         else if(countMines(myRow,myCol)!=0) setLabel(countMines(myRow,myCol));
         else{
             if(isValid(myRow, myCol-1)) buttons[myRow][myCol-1].mousePressed();
-            if(isValid(myRow, myCol+1)) buttons[myRow][myCol+1].mousePressed();
             if(isValid(myRow-1, myCol)) buttons[myRow-1][myCol].mousePressed();
+            if(isValid(myRow, myCol+1)) buttons[myRow][myCol+1].mousePressed();
             if(isValid(myRow+1, myCol)) buttons[myRow+1][myCol].mousePressed();
             
         }

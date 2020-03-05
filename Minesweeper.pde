@@ -1,6 +1,6 @@
 import de.bezier.guido.*;
-int NUM_ROWS = 5;
-int NUM_COLS = 5; 
+int NUM_ROWS = 20;
+int NUM_COLS = 20; 
 int NUM_MINES = 5;
 private MSButton[][] buttons; //2d array of minesweeper buttons
 private ArrayList <MSButton> mines = new ArrayList<MSButton>(); //ArrayList of just the minesweeper buttons that are mined
@@ -28,33 +28,50 @@ public void setMines()
 {
     int r = (int)(Math.random()*NUM_ROWS);
     int c = (int)(Math.random()*NUM_COLS);  
-    mines.add(buttons[r][c]);
-    System.out.println(r+" , "+c);
+    for(int i = 0; i<NUM_MINES;i++){
+        r = (int)(Math.random()*NUM_ROWS);
+        c = (int)(Math.random()*NUM_COLS);
+        mines.add(buttons[r][c]);
+        System.out.println(r+" , "+c);
+    }
 
 }
 
 public void draw ()
 {
     background( 0 );
-    if(isWon() == true)
+    if(isWon() == true){
         displayWinningMessage();
+        // noLoop();
+    }
+
 }
 public boolean isWon()
 {
-    //your code here
-    return false;
+    for(int r=0;r<NUM_ROWS;r++){
+        for(int c=0; c<NUM_COLS;c++){
+            if(!(buttons[r][c].isClicked()^mines.contains(buttons[r][c]))){
+                return false;
+            }
+        }
+    }
+    return true;
 }
 public void displayLosingMessage()
 {
-    //your code here
+    endTheGame();
+    
 }
+
+
 public void displayWinningMessage()
 {
-    //your code here
+    System.out.println("you win");
+    buttons[NUM_ROWS+1][NUM_COLS].isClicked();
 }
 public boolean isValid(int r, int c)
 {
-  return r<NUM_ROWS&&c<NUM_COLS&&r>=0&&c>=0?true:false;
+  return r<NUM_ROWS&&c<NUM_COLS&&r>=0&&c>=0;
 }
 public int countMines(int row, int col)
 {
@@ -97,16 +114,17 @@ public class MSButton
         else if(mines.contains(this)) displayLosingMessage();
         else if(countMines(myRow,myCol)!=0) setLabel(countMines(myRow,myCol));
         else{
-            if(isValid(myRow, myCol-1)) buttons[myRow][myCol-1].mousePressed();
-            if(isValid(myRow-1, myCol)) buttons[myRow-1][myCol].mousePressed();
-            if(isValid(myRow, myCol+1)) buttons[myRow][myCol+1].mousePressed();
-            if(isValid(myRow+1, myCol)) buttons[myRow+1][myCol].mousePressed();
+            if(isValid(myRow, myCol-1)&&!buttons[myRow][myCol-1].isClicked()) buttons[myRow][myCol-1].mousePressed();
+            if(isValid(myRow, myCol+1)&&!buttons[myRow][myCol+1].isClicked()) buttons[myRow][myCol+1].mousePressed();
+            if(isValid(myRow-1, myCol)&&!buttons[myRow-1][myCol].isClicked()) buttons[myRow-1][myCol].mousePressed();
+            if(isValid(myRow+1, myCol)&&!buttons[myRow+1][myCol].isClicked()) buttons[myRow+1][myCol].mousePressed();
             
         }
         }
     public void draw () 
     {    
         if (flagged)
+
             fill(0);
         else if( clicked && mines.contains(this) ) 
             fill(255,0,0);
@@ -131,4 +149,12 @@ public class MSButton
     {
         return flagged;
     }
+    public boolean isClicked(){
+        return clicked;
+    }
+}
+public void endTheGame(){
+    int i;
+    System.out.println("you lose");
+    throw new ArithmeticException("dividing a number by 5 is not allowed in this program");
 }

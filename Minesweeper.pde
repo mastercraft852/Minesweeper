@@ -1,13 +1,13 @@
 import de.bezier.guido.*;
-int NUM_ROWS = 20;
-int NUM_COLS = 20; 
-int NUM_MINES = 5;
+int NUM_ROWS = 30;
+int NUM_COLS = 30; 
+int NUM_MINES = 90;
 private MSButton[][] buttons; //2d array of minesweeper buttons
 private ArrayList <MSButton> mines = new ArrayList<MSButton>(); //ArrayList of just the minesweeper buttons that are mined
 
 void setup ()
 {
-    size(400, 400);
+    size(400, 600);
     textAlign(CENTER,CENTER);
     
     // make the manager
@@ -42,8 +42,9 @@ public void draw ()
     background( 0 );
     if(isWon() == true){
         displayWinningMessage();
-        // noLoop();
+        noLoop();
     }
+
 
 }
 public boolean isWon()
@@ -59,15 +60,19 @@ public boolean isWon()
 }
 public void displayLosingMessage()
 {
-    endTheGame();
+    textAlign(CENTER);
+    fill(255,0,0);
+    text("you lose! refresh the page to start anew.", width/2, 500);
+    noLoop();
     
 }
 
 
 public void displayWinningMessage()
 {
-    System.out.println("you win");
-    buttons[NUM_ROWS+1][NUM_COLS].isClicked();
+    textAlign(CENTER);
+    fill(0,255,0);
+    text("you win! refresh the page to start anew.", width/2, 500);
 }
 public boolean isValid(int r, int c)
 {
@@ -111,7 +116,10 @@ public class MSButton
     {
         clicked = true;
         if(mouseButton==RIGHT&&!clicked) flagged = !flagged;
-        else if(mines.contains(this)) displayLosingMessage();
+        else if(mines.contains(this)){ 
+            displayLosingMessage();
+            int i = 10/0;
+        }
         else if(countMines(myRow,myCol)!=0) setLabel(countMines(myRow,myCol));
         else{
             if(isValid(myRow, myCol-1)&&!buttons[myRow][myCol-1].isClicked()) buttons[myRow][myCol-1].mousePressed();
@@ -154,7 +162,5 @@ public class MSButton
     }
 }
 public void endTheGame(){
-    int i;
-    System.out.println("you lose");
     throw new ArithmeticException("dividing a number by 5 is not allowed in this program");
 }
